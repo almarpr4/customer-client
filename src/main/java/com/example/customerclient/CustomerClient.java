@@ -23,4 +23,9 @@ public class CustomerClient {
         };
         return restTemplate.exchange(this.uri+"/customers", HttpMethod.GET, null, ptr).getBody();
     }
+
+    public Customer getCustomerById(long id) {
+        return restTemplate.exchange(this.uri+"/customers/{id}", HttpMethod.GET, null, Customer.class, id)
+                .getBody();
+    }
 }

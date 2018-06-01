@@ -49,5 +49,22 @@ public class CustomerClientRestServiceServerTest {
 
         Collection<Customer> customers = client.getCustomers();
         BDDAssertions.then(customers.size()).isEqualTo(2);
+
+        this.mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void customerByIdShouldReturnACustomer(){
+        this.mockRestServiceServer.expect(ExpectedCount.manyTimes(), requestTo("http://localhost:8080/customers/1"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withSuccess(this.customerById, MediaType.APPLICATION_JSON_UTF8));
+
+        Customer customer = client.getCustomerById(1L);
+
+        BDDAssertions.then(customer.getFirstName()).isEqualToIgnoringCase("first");
+        BDDAssertions.then(customer.getLastName()).isEqualToIgnoringCase("last");
+        BDDAssertions.then(customer.getEmail()).isEqualToIgnoringCase("email");
+
+        this.mockRestServiceServer.verify();
     }
 }
