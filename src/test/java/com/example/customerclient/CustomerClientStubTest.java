@@ -33,8 +33,6 @@ public class CustomerClientStubTest {
 
         Collection<Customer> customers = client.getCustomers();
         BDDAssertions.then(customers.size()).isEqualTo(2);
-
-
     }
 
     private String asJson(Resource resource){
